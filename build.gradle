@@ -5,7 +5,9 @@ buildscript {
 }
 
 plugins {
-    id "groovy"
+    id 'groovy'
+    id 'maven-publish'
+    id 'com.jfrog.bintray' version '1.7.3'
 }
 
 group 'com.github.timic'
@@ -22,4 +24,26 @@ dependencies {
     compile "org.codehaus.groovy:groovy-all:$groovyVersion"
 
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+}
+
+publishing {
+    publications {
+        vavrGroovy(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+bintray {
+    user = System.getenv("BINTRAY_USER")
+    key = System.getenv("BINTRAY_KEY")
+    publications = ["vavrGroovy"]
+    pkg {
+        repo = "generic"
+        name = "vavr-groovy"
+        userOrg = user
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/timic/vavr-groovy.git'
+        labels = ['vavr', 'groovy']
+    }
 }
