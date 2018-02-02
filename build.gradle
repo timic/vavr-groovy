@@ -47,3 +47,5 @@ bintray {
         labels = ['vavr', 'groovy']
     }
 }
+
+jar.dependsOn(check)
