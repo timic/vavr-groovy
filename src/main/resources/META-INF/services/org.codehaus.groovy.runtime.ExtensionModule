@@ -1,0 +1,4 @@
+moduleName = vavr-module
+moduleVersion = 0.1.0-SNAPSHOT
+extensionClasses = com.github.timic.vavr.groovy.VavrExtension
+staticExtensionClasses = com.github.timic.vavr.groovy.VavrStaticExtension

@@ -1,0 +1,25 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+plugins {
+    id "groovy"
+}
+
+group 'com.github.timic'
+version '0.1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "io.vavr:vavr:$vavrVersion"
+    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+}
