@@ -1,5 +1,7 @@
 package com.github.timic.vavr.groovy
 
+import io.vavr.Tuple2
+import io.vavr.Tuple3
 import io.vavr.collection.List
 import io.vavr.collection.Stream
 import io.vavr.control.Either
@@ -57,6 +59,20 @@ class VavrExtensionSpec extends Specification {
     void "stream drop until"() {
         expect:
             Stream.of(1, 2, 3, 4, 5).dropUntil { it > 2 } == Stream.of(3, 4, 5)
+    }
+
+    void "should extract tuple variables"() {
+        when:
+            def (int a, String b) = new Tuple2<Integer, String>(1, "Test")
+        then:
+            a == 1
+            b == "Test"
+        when:
+            def (boolean c, long d, Map e) = new Tuple3<Boolean, Long, ?>(true, 10L, [a: 1])
+        then:
+            c
+            d == 10L
+            e == [a: 1]
     }
 
 }

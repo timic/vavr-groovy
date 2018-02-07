@@ -3,6 +3,7 @@ package com.github.timic.vavr.groovy;
 import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
+import io.vavr.Tuple;
 import io.vavr.Value;
 import io.vavr.collection.Traversable;
 import io.vavr.control.Either;
@@ -48,6 +49,11 @@ public class VavrExtension {
     public static <T extends Traversable<V>, V> T dropUntil(
             T traversable, @ClosureParams(FirstParam.SecondGenericType.class) Closure<Boolean> closure) {
         return (T) traversable.dropUntil(closure::call);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <R, T extends Tuple> R getAt(T tuple, Integer index) {
+        return (R) tuple.toSeq().get(index);
     }
 
 }

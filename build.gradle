@@ -11,7 +11,7 @@ plugins {
 }
 
 group 'com.github.timic'
-version '0.1.0-RC1'
+version '0.1.0-RC2'
 
 sourceCompatibility = 1.8
 
