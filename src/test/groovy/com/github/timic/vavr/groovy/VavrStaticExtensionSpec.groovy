@@ -1,5 +1,6 @@
 package com.github.timic.vavr.groovy
 
+import groovy.transform.CompileStatic
 import io.vavr.collection.Stream
 import io.vavr.control.Option
 import spock.lang.Specification
@@ -25,6 +26,19 @@ class VavrStaticExtensionSpec extends Specification {
         then:
             opt.defined
             opt.get() == 1
+    }
+
+    void "none factory method"() {
+        when:
+            Option<Integer> opt = testStaticNone()
+        then:
+            opt.empty
+
+    }
+
+    @CompileStatic
+    private static Option<Integer> testStaticNone() {
+        none()
     }
 
 }

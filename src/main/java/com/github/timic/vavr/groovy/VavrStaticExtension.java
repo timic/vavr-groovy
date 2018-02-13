@@ -21,4 +21,8 @@ public class VavrStaticExtension {
         return Option.when(test, closure::call);
     }
 
+    public static <T> Option<T> none(Object obj) {
+        return Option.none();
+    }
+
 }
