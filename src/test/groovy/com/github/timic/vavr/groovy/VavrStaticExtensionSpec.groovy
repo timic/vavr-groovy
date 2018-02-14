@@ -36,6 +36,24 @@ class VavrStaticExtensionSpec extends Specification {
 
     }
 
+    void "match case"() {
+        expect:
+            Match(5).of(
+                    Case(5, "Equals"),
+                    Case(3, "Not eqauls")) == "Equals"
+            Match(5).of(
+                    Case({ it > 4 }) { "Greater" },
+                    Case({ it == 3 }, "Equals")) == "Greater"
+            Match(5).of(
+                    Case({ it == 5 }) { it ** 2 }) == 25
+            Match(5).of(
+                    Case(3, "False"),
+                    // default case
+                    Case {
+                        "Default"
+                    }) == "Default"
+    }
+
     @CompileStatic
     private static Option<Integer> testStaticNone() {
         none()
