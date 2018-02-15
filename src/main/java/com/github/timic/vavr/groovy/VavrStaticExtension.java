@@ -6,6 +6,7 @@ import groovy.transform.stc.FirstParam;
 import io.vavr.API;
 import io.vavr.collection.Stream;
 import io.vavr.control.Option;
+import io.vavr.control.Try;
 
 import java.util.function.Function;
 
@@ -22,6 +23,10 @@ public class VavrStaticExtension {
 
     public static <T> Option<T> when(Option option, boolean test, Closure<T> closure) {
         return Option.when(test, closure::call);
+    }
+
+    public static <T> Try<T> of(Try obj, Closure<T> closure) {
+        return Try.of(closure::call);
     }
 
     public static <T> Option<T> none(Object obj) {
