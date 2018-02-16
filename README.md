@@ -56,6 +56,6 @@ repositories {
 }
 
 dependencies {
-    compile "com.github.timic:vavr-groovy:0.1.0-RC3"
+    compile "com.github.timic:vavr-groovy:0.1.0"
 }
 ```
