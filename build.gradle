@@ -10,10 +10,12 @@ plugins {
     id 'jacoco'
     id 'com.jfrog.bintray' version '1.7.3'
     id "com.github.hierynomus.license" version "0.14.0"
+    id 'com.github.ben-manes.versions' version '0.17.0'
+    id 'com.palantir.git-version' version '0.10.1'
 }
 
 group 'com.github.timic'
-version '0.1.0'
+version gitVersion()
 
 sourceCompatibility = 1.8
 
