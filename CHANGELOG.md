@@ -1,3 +1,6 @@
+### v0.1.1
+vavr updated to 0.9.2
+
 ### v0.1.0
 Dependencies:
 * vavr dependency - 0.9.1
