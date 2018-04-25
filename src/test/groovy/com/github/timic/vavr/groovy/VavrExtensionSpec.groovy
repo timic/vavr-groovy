@@ -203,8 +203,10 @@
  */
 package com.github.timic.vavr.groovy
 
+import groovy.transform.CompileStatic
 import io.vavr.Tuple2
 import io.vavr.Tuple3
+import io.vavr.collection.HashMap
 import io.vavr.collection.List
 import io.vavr.collection.Stream
 import io.vavr.control.Either
@@ -276,6 +278,15 @@ class VavrExtensionSpec extends Specification {
             c
             d == 10L
             e == [a: 1]
+    }
+
+    void "group by list"() {
+        expect:
+            List.of(1, 2, 3, 4, 5).groupBy {
+                it % 2 == 0 ? 'even' : 'odd'
+            } == HashMap.of(
+                    "even", List.of(2, 4),
+                    "odd", List.of(1, 3, 5))
     }
 
 }

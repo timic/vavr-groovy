@@ -208,7 +208,16 @@ import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
 import io.vavr.Tuple;
 import io.vavr.Value;
-import io.vavr.collection.Traversable;
+import io.vavr.collection.Array;
+import io.vavr.collection.List;
+import io.vavr.collection.Map;
+import io.vavr.collection.PriorityQueue;
+import io.vavr.collection.Queue;
+import io.vavr.collection.Seq;
+import io.vavr.collection.Set;
+import io.vavr.collection.Stream;
+import io.vavr.collection.Tree;
+import io.vavr.collection.Vector;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 
@@ -231,32 +240,231 @@ public class VavrExtension {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Traversable<V>, V> T takeWhile(
-            T traversable, @ClosureParams(FirstParam.SecondGenericType.class) Closure<Boolean> closure) {
-        return (T) traversable.takeWhile(closure::call);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T extends Traversable<V>, V> T takeUntil(
-            T traversable, @ClosureParams(FirstParam.SecondGenericType.class) Closure<Boolean> closure) {
-        return (T) traversable.takeUntil(closure::call);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T extends Traversable<V>, V> T dropWhile(
-            T traversable, @ClosureParams(FirstParam.SecondGenericType.class) Closure<Boolean> closure) {
-        return (T) traversable.dropWhile(closure::call);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T extends Traversable<V>, V> T dropUntil(
-            T traversable, @ClosureParams(FirstParam.SecondGenericType.class) Closure<Boolean> closure) {
-        return (T) traversable.dropUntil(closure::call);
-    }
-
-    @SuppressWarnings("unchecked")
     public static <R, T extends Tuple> R getAt(T tuple, Integer index) {
         return (R) tuple.toSeq().get(index);
     }
+
+    // region take while
+
+    public static <T> List<T> takeWhile(
+            List<T> list, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return list.takeWhile(closure::call);
+    }
+
+    public static <T> Stream<T> takeWhile(
+            Stream<T> stream, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return stream.takeWhile(closure::call);
+    }
+
+    public static <T> Set<T> takeWhile(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return set.takeWhile(closure::call);
+    }
+
+    public static <T> Queue<T> takeWhile(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.takeWhile(closure::call);
+    }
+
+    public static <T> PriorityQueue<T> takeWhile(
+            PriorityQueue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.takeWhile(closure::call);
+    }
+
+
+    public static <T> Array<T> takeWhile(
+            Array<T> array, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return array.takeWhile(closure::call);
+    }
+
+    public static <T> Vector<T> takeWhile(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return vector.takeWhile(closure::call);
+    }
+
+    public static <T> Seq<T> takeWhile(
+            Tree<T> tree, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return tree.takeWhile(closure::call);
+    }
+
+    // endregion
+
+    // region take until
+
+    public static <T> List<T> takeUntil(
+            List<T> list, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return list.takeUntil(closure::call);
+    }
+
+    public static <T> Stream<T> takeUntil(
+            Stream<T> stream, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return stream.takeUntil(closure::call);
+    }
+
+    public static <T> Set<T> takeUntil(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return set.takeUntil(closure::call);
+    }
+
+    public static <T> Queue<T> takeUntil(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.takeUntil(closure::call);
+    }
+
+    public static <T> PriorityQueue<T> takeUntil(
+            PriorityQueue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.takeUntil(closure::call);
+    }
+
+
+    public static <T> Array<T> takeUntil(
+            Array<T> array, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return array.takeUntil(closure::call);
+    }
+
+    public static <T> Vector<T> takeUntil(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return vector.takeUntil(closure::call);
+    }
+
+    public static <T> Seq<T> takeUntil(
+            Tree<T> tree, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return tree.takeUntil(closure::call);
+    }
+
+    // endregion
+
+    // region drop while
+
+    public static <T> List<T> dropWhile(
+            List<T> list, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return list.dropWhile(closure::call);
+    }
+
+    public static <T> Stream<T> dropWhile(
+            Stream<T> stream, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return stream.dropWhile(closure::call);
+    }
+
+    public static <T> Set<T> dropWhile(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return set.dropWhile(closure::call);
+    }
+
+    public static <T> Queue<T> dropWhile(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.dropWhile(closure::call);
+    }
+
+    public static <T> PriorityQueue<T> dropWhile(
+            PriorityQueue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.dropWhile(closure::call);
+    }
+
+
+    public static <T> Array<T> dropWhile(
+            Array<T> array, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return array.dropWhile(closure::call);
+    }
+
+    public static <T> Vector<T> dropWhile(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return vector.dropWhile(closure::call);
+    }
+
+    public static <T> Seq<T> dropWhile(
+            Tree<T> tree, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return tree.dropWhile(closure::call);
+    }
+
+    // endregion
+
+    // region drop until
+
+    public static <T> List<T> dropUntil(
+            List<T> list, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return list.dropUntil(closure::call);
+    }
+
+    public static <T> Stream<T> dropUntil(
+            Stream<T> stream, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return stream.dropUntil(closure::call);
+    }
+
+    public static <T> Set<T> dropUntil(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return set.dropUntil(closure::call);
+    }
+
+    public static <T> Queue<T> dropUntil(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.dropUntil(closure::call);
+    }
+
+    public static <T> PriorityQueue<T> dropUntil(
+            PriorityQueue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.dropUntil(closure::call);
+    }
+
+    public static <T> Array<T> dropUntil(
+            Array<T> array, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return array.dropUntil(closure::call);
+    }
+
+    public static <T> Vector<T> dropUntil(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return vector.dropUntil(closure::call);
+    }
+
+    public static <T> Seq<T> dropUntil(
+            Tree<T> tree, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return tree.dropUntil(closure::call);
+    }
+
+    // endregion
+
+    // region group by
+
+    public static <T, R> Map<R, List<T>> groupBy(
+            List<T> list, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
+        return list.groupBy(closure::call);
+    }
+
+    public static <T, R> Map<R, Stream<T>> groupBy(
+            Stream<T> stream, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
+        return stream.groupBy(closure::call);
+    }
+
+    public static <T, R> Map<R, ? extends Set<T>> groupBy(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
+        return set.groupBy(closure::call);
+    }
+
+    public static <T, R> Map<R, ? extends Queue<T>> groupBy(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
+        return queue.groupBy(closure::call);
+    }
+
+    public static <T, R> Map<R, ? extends PriorityQueue<T>> groupBy(
+            PriorityQueue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
+        return queue.groupBy(closure::call);
+    }
+
+    public static <T, R> Map<R, ? extends Array<T>> groupBy(
+            Array<T> array, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
+        return array.groupBy(closure::call);
+    }
+
+    public static <T, R> Map<R, ? extends Vector<T>> groupBy(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
+        return vector.groupBy(closure::call);
+    }
+
+    public static <T, R> Map<R, Seq<T>> groupBy(
+            Tree<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
+        return vector.groupBy(closure::call);
+    }
+
+    // endregion
 
 }
