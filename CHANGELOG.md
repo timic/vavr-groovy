@@ -1,4 +1,6 @@
 ### v0.2.0
+* Fixed collection extension methods
+* added group by support
 
 ### v0.1.1
 vavr updated to 0.9.2
