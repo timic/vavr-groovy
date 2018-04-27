@@ -203,7 +203,6 @@
  */
 package com.github.timic.vavr.groovy
 
-import groovy.transform.CompileStatic
 import io.vavr.Tuple2
 import io.vavr.Tuple3
 import io.vavr.collection.HashMap
@@ -287,6 +286,13 @@ class VavrExtensionSpec extends Specification {
             } == HashMap.of(
                     "even", List.of(2, 4),
                     "odd", List.of(1, 3, 5))
+    }
+
+    void "either map left"() {
+        expect:
+            Either.left(1).mapLeft {
+                it + 2
+            }.left == 3
     }
 
 }

@@ -531,7 +531,7 @@ public class VavrExtension {
     }
 
     public static <L, R, L1> Either<L1, R> mapLeft(
-            Either<L, R> either, @ClosureParams(FirstParam.SecondGenericType.class) Closure<L1> closure) {
+            Either<L, R> either, @ClosureParams(FirstParam.FirstGenericType.class) Closure<L1> closure) {
         return either.mapLeft(closure::call);
     }
 
