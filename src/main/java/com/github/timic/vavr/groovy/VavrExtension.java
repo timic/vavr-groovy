@@ -206,7 +206,11 @@ package com.github.timic.vavr.groovy;
 import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
+import groovy.transform.stc.FromString;
 import io.vavr.Tuple;
+import io.vavr.Tuple1;
+import io.vavr.Tuple2;
+import io.vavr.Tuple3;
 import io.vavr.Value;
 import io.vavr.collection.Array;
 import io.vavr.collection.List;
@@ -220,6 +224,7 @@ import io.vavr.collection.Tree;
 import io.vavr.collection.Vector;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
+import io.vavr.control.Try;
 
 public class VavrExtension {
 
@@ -463,6 +468,186 @@ public class VavrExtension {
     public static <T, R> Map<R, Seq<T>> groupBy(
             Tree<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
         return vector.groupBy(closure::call);
+    }
+
+    // endregion
+
+    // region map
+
+    public static <T, R> List<R> map(
+            List<T> list, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return list.map(closure::call);
+    }
+
+    public static <T, R> Stream<R> map(
+            Stream<T> stream, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return stream.map(closure::call);
+    }
+
+    public static <T, R> Set<R> map(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return set.map(closure::call);
+    }
+
+    public static <T, R> Queue<R> map(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return queue.map(closure::call);
+    }
+
+    public static <T, R> PriorityQueue<R> map(
+            PriorityQueue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return queue.map(closure::call);
+    }
+
+    public static <T, R> Array<R> map(
+            Array<T> array, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return array.map(closure::call);
+    }
+
+    public static <T, R> Vector<R> map(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return vector.map(closure::call);
+    }
+
+    public static <K, V, K2, V2> Map<K2, V2> map(
+            Map<K, V> map,
+            @ClosureParams(value = FromString.class, options = {"K,V"}) Closure<? extends Tuple2<K2, V2>> closure) {
+        return map.map((k, v) -> closure.call(k, v));
+    }
+
+    public static <T, R> Option<R> map(
+            Option<T> option, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
+        return option.map(closure::call);
+    }
+
+    public static <T, R> Try<R> map(
+            Try<T> aTry, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
+        return aTry.map(closure::call);
+    }
+
+    public static <L, R, R1> Either<L, R1> map(
+            Either<L, R> either, @ClosureParams(FirstParam.SecondGenericType.class) Closure<R1> closure) {
+        return either.map(closure::call);
+    }
+
+    public static <L, R, L1> Either<L1, R> mapLeft(
+            Either<L, R> either, @ClosureParams(FirstParam.SecondGenericType.class) Closure<L1> closure) {
+        return either.mapLeft(closure::call);
+    }
+
+    public static <T1, T2> Tuple1<T2> map(
+            Tuple1<T1> tuple,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T2> closure) {
+        return tuple.map(closure::call);
+    }
+
+    public static <T1, T2, T3, T4> Tuple2<T3, T4> map(
+            Tuple2<T1, T2> tuple,
+            @ClosureParams(value = FromString.class, options = {"T1,T2"}) Closure<Tuple2<T3, T4>> closure) {
+        return tuple.map((t1, t2) -> closure.call(t1, t2));
+    }
+
+    public static <T1, T2, T3> Tuple2<T3, T2> map1(
+            Tuple2<T1, T2> tuple,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T3> closure) {
+        return tuple.map1(closure::call);
+    }
+
+    public static <T1, T2, T3> Tuple2<T1, T3> map2(
+            Tuple2<T1, T2> tuple,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T3> closure) {
+        return tuple.map2(closure::call);
+    }
+
+
+    public static <T1, T2, T3, T4, T5, T6> Tuple3<T4, T5, T6> map(
+            Tuple3<T1, T2, T3> tuple,
+            @ClosureParams(value = FromString.class, options = {"T1,T2,T3"}) Closure<Tuple3<T4, T5, T6>> closure) {
+        return tuple.map((t1, t2, t3) -> closure.call(t1, t2, t3));
+    }
+
+    public static <T1, T2, T3, T4> Tuple3<T4, T2, T3> map1(
+            Tuple3<T1, T2, T3> tuple,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T4> closure) {
+        return tuple.map1(closure::call);
+    }
+
+    public static <T1, T2, T3, T4> Tuple3<T1, T4, T3> map2(
+            Tuple3<T1, T2, T3> tuple,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T4> closure) {
+        return tuple.map2(closure::call);
+    }
+
+    public static <T1, T2, T3, T4> Tuple3<T1, T2, T4> map3(
+            Tuple3<T1, T2, T3> tuple,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T4> closure) {
+        return tuple.map3(closure::call);
+    }
+
+    // endregion
+
+    // region flat-map
+
+    public static <T, R> List<R> flatMap(
+            List<T> list, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+        return list.flatMap(closure::call);
+    }
+
+    public static <T, R> Stream<R> flatMap(
+            Stream<T> stream,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+        return stream.flatMap(closure::call);
+    }
+
+    public static <T, R> Set<R> flatMap(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+        return set.flatMap(closure::call);
+    }
+
+    public static <T, R> Queue<R> flatMap(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+        return queue.flatMap(closure::call);
+    }
+
+    public static <T, R> PriorityQueue<R> flatMap(
+            PriorityQueue<T> queue,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+        return queue.flatMap(closure::call);
+    }
+
+    public static <T, R> Array<R> flatMap(
+            Array<T> array, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+        return array.flatMap(closure::call);
+    }
+
+    public static <T, R> Vector<R> flatMap(
+            Vector<T> vector,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+        return vector.flatMap(closure::call);
+    }
+
+    public static <K, V, K2, V2> Map<K2, V2> flatMap(
+            Map<K, V> map,
+            @ClosureParams(value = FromString.class, options = {"K,V"})
+                    Closure<? extends Iterable<Tuple2<K2, V2>>> closure) {
+        return map.flatMap((k, v) -> closure.call(k, v));
+    }
+
+    public static <T, R> Option<R> flatMap(
+            Option<T> option, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Option<? extends R>> closure) {
+        return option.flatMap(closure::call);
+    }
+
+    public static <T, R> Try<R> flatMap(
+            Try<T> aTry, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Try<? extends R>> closure) {
+        return aTry.flatMap(closure::call);
+    }
+
+    public static <L, R, R1> Either<L, R1> flatMap(
+            Either<L, R> either,
+            @ClosureParams(FirstParam.SecondGenericType.class)
+                    Closure<Either<L, ? extends R1>> closure) {
+        return either.flatMap(closure::call);
     }
 
     // endregion
