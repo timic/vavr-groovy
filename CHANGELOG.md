@@ -1,3 +1,6 @@
+### v0.2.1
+* map/flatMap support
+
 ### v0.2.0
 * Fixed collection extension methods
 * added group by support
