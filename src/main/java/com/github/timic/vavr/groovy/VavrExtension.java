@@ -226,6 +226,8 @@ import io.vavr.control.Either;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 
+import java.util.function.Function;
+
 public class VavrExtension {
 
     public static <T, V extends T> T getOrElse(Option<T> option, Closure<V> closure) {
@@ -247,6 +249,13 @@ public class VavrExtension {
     @SuppressWarnings("unchecked")
     public static <R, T extends Tuple> R getAt(T tuple, Integer index) {
         return (R) tuple.toSeq().get(index);
+    }
+
+    public static <T, X extends Throwable> T getOrElseThrow(
+            Try<T> aTry,
+            @ClosureParams(value = FromString.class, options = {"java.lang.Throwable"})
+                    Closure<X> closure) throws X {
+        return aTry.getOrElseThrow((Function<Throwable, X>) closure::call);
     }
 
     // region take while
