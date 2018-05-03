@@ -1,3 +1,9 @@
+### v0.2.3
+* filter support
+
+### v0.2.2
+* Fixed Either#mapLeft signature hint
+
 ### v0.2.1
 * map/flatMap support
 

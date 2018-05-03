@@ -230,19 +230,19 @@ import java.util.function.Function;
 
 public class VavrExtension {
 
-    public static <T, V extends T> T getOrElse(Option<T> option, Closure<V> closure) {
+    public static <T> T getOrElse(Option<T> option, Closure<T> closure) {
         return option.getOrElse(closure::call);
     }
 
-    public static <T, V extends T> Option<T> orElse(Option<T> option, Closure<Option<V>> closure) {
+    public static <T> Option<T> orElse(Option<T> option, Closure<Option<T>> closure) {
         return option.orElse(closure::call);
     }
 
-    public static <T, L> Either<L, T> toEither(Value<T> value, Closure<? extends L> closure) {
+    public static <T, L> Either<L, T> toEither(Value<T> value, Closure<L> closure) {
         return value.toEither(closure::call);
     }
 
-    public static <T, R> Either<T, R> toLeft(Value<T> value, Closure<? extends R> closure) {
+    public static <T, R> Either<T, R> toLeft(Value<T> value, Closure<R> closure) {
         return value.toLeft(closure::call);
     }
 
@@ -454,7 +454,7 @@ public class VavrExtension {
         return set.groupBy(closure::call);
     }
 
-    public static <T, R> Map<R, ? extends Queue<T>> groupBy(
+    public static <T, R> Map<R, Queue<T>> groupBy(
             Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
         return queue.groupBy(closure::call);
     }
@@ -464,12 +464,12 @@ public class VavrExtension {
         return queue.groupBy(closure::call);
     }
 
-    public static <T, R> Map<R, ? extends Array<T>> groupBy(
+    public static <T, R> Map<R, Array<T>> groupBy(
             Array<T> array, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
         return array.groupBy(closure::call);
     }
 
-    public static <T, R> Map<R, ? extends Vector<T>> groupBy(
+    public static <T, R> Map<R, Vector<T>> groupBy(
             Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
         return vector.groupBy(closure::call);
     }
@@ -484,44 +484,50 @@ public class VavrExtension {
     // region map
 
     public static <T, R> List<R> map(
-            List<T> list, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+            List<T> list, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
         return list.map(closure::call);
     }
 
     public static <T, R> Stream<R> map(
-            Stream<T> stream, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+            Stream<T> stream, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
         return stream.map(closure::call);
     }
 
     public static <T, R> Set<R> map(
-            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
         return set.map(closure::call);
     }
 
     public static <T, R> Queue<R> map(
-            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
         return queue.map(closure::call);
     }
 
     public static <T, R> PriorityQueue<R> map(
-            PriorityQueue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+            PriorityQueue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
         return queue.map(closure::call);
     }
 
     public static <T, R> Array<R> map(
-            Array<T> array, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+            Array<T> array, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
         return array.map(closure::call);
     }
 
     public static <T, R> Vector<R> map(
-            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
         return vector.map(closure::call);
     }
 
     public static <K, V, K2, V2> Map<K2, V2> map(
             Map<K, V> map,
-            @ClosureParams(value = FromString.class, options = {"K,V"}) Closure<? extends Tuple2<K2, V2>> closure) {
+            @ClosureParams(value = FromString.class, options = {"K,V"}) Closure<Tuple2<K2, V2>> closure) {
         return map.map((k, v) -> closure.call(k, v));
+    }
+
+    public static <K, V, V2> Map<K, V2> mapValues(
+            Map<K, V> map,
+            @ClosureParams(value = FirstParam.SecondGenericType.class) Closure<V2> closure) {
+        return map.mapValues(closure::call);
     }
 
     public static <T, R> Option<R> map(
@@ -546,7 +552,7 @@ public class VavrExtension {
 
     public static <T1, T2> Tuple1<T2> map(
             Tuple1<T1> tuple,
-            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T2> closure) {
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<T2> closure) {
         return tuple.map(closure::call);
     }
 
@@ -558,13 +564,13 @@ public class VavrExtension {
 
     public static <T1, T2, T3> Tuple2<T3, T2> map1(
             Tuple2<T1, T2> tuple,
-            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T3> closure) {
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<T3> closure) {
         return tuple.map1(closure::call);
     }
 
     public static <T1, T2, T3> Tuple2<T1, T3> map2(
             Tuple2<T1, T2> tuple,
-            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T3> closure) {
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<T3> closure) {
         return tuple.map2(closure::call);
     }
 
@@ -577,19 +583,19 @@ public class VavrExtension {
 
     public static <T1, T2, T3, T4> Tuple3<T4, T2, T3> map1(
             Tuple3<T1, T2, T3> tuple,
-            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T4> closure) {
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<T4> closure) {
         return tuple.map1(closure::call);
     }
 
     public static <T1, T2, T3, T4> Tuple3<T1, T4, T3> map2(
             Tuple3<T1, T2, T3> tuple,
-            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T4> closure) {
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<T4> closure) {
         return tuple.map2(closure::call);
     }
 
     public static <T1, T2, T3, T4> Tuple3<T1, T2, T4> map3(
             Tuple3<T1, T2, T3> tuple,
-            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T4> closure) {
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<T4> closure) {
         return tuple.map3(closure::call);
     }
 
@@ -598,65 +604,119 @@ public class VavrExtension {
     // region flat-map
 
     public static <T, R> List<R> flatMap(
-            List<T> list, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+            List<T> list, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<R>> closure) {
         return list.flatMap(closure::call);
     }
 
     public static <T, R> Stream<R> flatMap(
             Stream<T> stream,
-            @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<R>> closure) {
         return stream.flatMap(closure::call);
     }
 
     public static <T, R> Set<R> flatMap(
-            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<R>> closure) {
         return set.flatMap(closure::call);
     }
 
     public static <T, R> Queue<R> flatMap(
-            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<R>> closure) {
         return queue.flatMap(closure::call);
     }
 
     public static <T, R> PriorityQueue<R> flatMap(
             PriorityQueue<T> queue,
-            @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<R>> closure) {
         return queue.flatMap(closure::call);
     }
 
     public static <T, R> Array<R> flatMap(
-            Array<T> array, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+            Array<T> array, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<R>> closure) {
         return array.flatMap(closure::call);
     }
 
     public static <T, R> Vector<R> flatMap(
             Vector<T> vector,
-            @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<? extends R>> closure) {
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<Iterable<R>> closure) {
         return vector.flatMap(closure::call);
     }
 
     public static <K, V, K2, V2> Map<K2, V2> flatMap(
             Map<K, V> map,
             @ClosureParams(value = FromString.class, options = {"K,V"})
-                    Closure<? extends Iterable<Tuple2<K2, V2>>> closure) {
+                    Closure<Iterable<Tuple2<K2, V2>>> closure) {
         return map.flatMap((k, v) -> closure.call(k, v));
     }
 
     public static <T, R> Option<R> flatMap(
-            Option<T> option, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Option<? extends R>> closure) {
+            Option<T> option, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Option<R>> closure) {
         return option.flatMap(closure::call);
     }
 
     public static <T, R> Try<R> flatMap(
-            Try<T> aTry, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Try<? extends R>> closure) {
+            Try<T> aTry, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Try<R>> closure) {
         return aTry.flatMap(closure::call);
     }
 
     public static <L, R, R1> Either<L, R1> flatMap(
             Either<L, R> either,
             @ClosureParams(FirstParam.SecondGenericType.class)
-                    Closure<Either<L, ? extends R1>> closure) {
+                    Closure<Either<L, R1>> closure) {
         return either.flatMap(closure::call);
+    }
+
+    // endregion
+
+    // region filter
+
+    public static <T> List<T> filter(
+            List<T> list, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return list.filter(closure::call);
+    }
+
+    public static <T> Stream<T> filter(
+            Stream<T> stream, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return stream.filter(closure::call);
+    }
+
+    public static <T> Set<T> filter(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return set.filter(closure::call);
+    }
+
+    public static <T> Queue<T> filter(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.filter(closure::call);
+    }
+
+    public static <T> PriorityQueue<T> filter(
+            PriorityQueue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.filter(closure::call);
+    }
+
+    public static <T> Array<T> filter(
+            Array<T> array, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return array.filter(closure::call);
+    }
+
+    public static <T> Vector<T> filter(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return vector.filter(closure::call);
+    }
+
+    public static <T> Seq<T> filter(
+            Tree<T> tree, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return tree.filter(closure::call);
+    }
+
+    public static <K, V> Map<K, V> filter(
+            Map<K, V> map, @ClosureParams(value = FromString.class, options = {"K,V"}) Closure<Boolean> closure) {
+        return map.filter((k, v) -> closure.call(k, v));
+    }
+
+    public static <K, V> Map<K, V> filterValues(
+            Map<K, V> map, @ClosureParams(FirstParam.SecondGenericType.class) Closure<Boolean> closure) {
+        return map.filterValues(closure::call);
     }
 
     // endregion
