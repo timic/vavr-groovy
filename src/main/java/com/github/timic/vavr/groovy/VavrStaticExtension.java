@@ -245,8 +245,8 @@ public class VavrStaticExtension {
     }
 
     public static <T, R> API.Match.Case<T, R> Case(Object obj, T pattern, Closure<R> supplier) {
-        R ret = supplier.getMaximumNumberOfParameters() == 0 ? supplier.call() : supplier.call(pattern);
-        return API.Case(API.$(pattern), ret);
+        return API.Case(API.$(pattern), () ->
+                supplier.getMaximumNumberOfParameters() == 0 ? supplier.call() : supplier.call(pattern));
     }
 
     public static <T, R> API.Match.Case<T, R> Case(
