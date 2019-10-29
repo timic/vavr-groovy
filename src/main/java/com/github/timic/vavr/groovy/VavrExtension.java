@@ -258,6 +258,12 @@ public class VavrExtension {
         return aTry.getOrElseThrow((Function<Throwable, X>) closure::call);
     }
 
+    public static <L, R> Either<L, R> peek(
+            Either<L, R> either,
+            @ClosureParams(value = FirstParam.SecondGenericType.class) Closure closure) {
+        return either.peek(closure::call);
+    }
+
     // region take while
 
     public static <T> List<T> takeWhile(
