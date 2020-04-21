@@ -1,3 +1,6 @@
+### v0.3.1
+* Update vavr to 0.10.2
+
 ### v0.3.0
 * An extension methods split to separate classes
 * Added few extensions to Map, Option, Either
