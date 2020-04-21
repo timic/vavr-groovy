@@ -34,7 +34,9 @@ assert Stream.iterate(1) {
   ++ it
 }.take(3) == Stream.of(1, 2, 3)
 
-// pattern matching (no imports required)
+// pattern matching
+import static com.github.timic.vavr.groovy.API.*
+
 assert Match(3).of(
     Case(1) {
         "One"
@@ -56,6 +58,6 @@ repositories {
 }
 
 dependencies {
-    compile "com.github.timic:vavr-groovy:0.1.0"
+    compile "com.github.timic:vavr-groovy:0.3.0"
 }
 ```
