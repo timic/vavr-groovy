@@ -1,3 +1,6 @@
+### v0.3.2
+* Fixed `Traversable#find(Closure)`
+
 ### v0.3.1
 * Update vavr to 0.10.2
 
