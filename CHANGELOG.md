@@ -1,3 +1,11 @@
+### v0.3.0
+* An extension methods split to separate classes
+* Added few extensions to Map, Option, Either
+
+Breaking change:
+* Move pattern matching extensions to utility static methods
+* `none()` renamed to `None()` 
+
 ### v0.2.3
 * filter support
 
