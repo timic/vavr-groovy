@@ -201,40 +201,50 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.github.timic.vavr.groovy;
+package com.github.timic.vavr.groovy
 
-import groovy.lang.Closure;
-import groovy.transform.stc.ClosureParams;
-import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
+import io.vavr.Tuple2
+import io.vavr.Tuple3
+import spock.lang.Specification
 
-public final class VavrStaticExtension {
+class TupleExtensionSpec extends Specification {
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
+    def "GetAt"() {
+        when:
+            def (int a, String b) = new Tuple2<Integer, String>(1, "Test")
+        then:
+            a == 1
+            b == "Test"
+        when:
+            def (boolean c, long d, Map e) = new Tuple3<Boolean, Long, ?>(true, 10L, [a: 1])
+        then:
+            c
+            d == 10L
+            e == [a: 1]
     }
 
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
+    def "Map"() {
     }
 
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
+    def "TestMap"() {
     }
 
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
+    def "Map1"() {
     }
 
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
+    def "Map2"() {
     }
 
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
+    def "TestMap1"() {
+    }
+
+    def "TestMap11"() {
+    }
+
+    def "TestMap2"() {
+    }
+
+    def "Map3"() {
     }
 
 }

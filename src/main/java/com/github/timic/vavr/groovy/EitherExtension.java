@@ -206,35 +206,45 @@ package com.github.timic.vavr.groovy;
 import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
+import io.vavr.control.Either;
 
-public final class VavrStaticExtension {
+import java.util.function.Function;
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
+public final class EitherExtension {
+
+    public static <L, R, R1> Either<L, R1> map(
+            Either<L, R> either, @ClosureParams(FirstParam.SecondGenericType.class) Closure<? extends R1> closure) {
+        return either.map(closure::call);
     }
 
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
+    public static <L, R, L1> Either<L1, R> mapLeft(
+            Either<L, R> either, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends L1> closure) {
+        return either.mapLeft(closure::call);
     }
 
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
+    public static <L, R, R1> Either<L, R1> flatMap(
+            Either<L, R> either,
+            @ClosureParams(FirstParam.SecondGenericType.class)
+                    Closure<Either<L, ? extends R1>> closure) {
+        return either.flatMap(closure::call);
     }
 
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
+    public static <L, R> Either<L, R> peek(
+            Either<L, R> either,
+            @ClosureParams(value = FirstParam.SecondGenericType.class) Closure<?> closure) {
+        return either.peek(closure::call);
     }
 
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
+    public static <L, R> Either<L, R> peekLeft(
+            Either<L, R> either,
+            @ClosureParams(value = FirstParam.FirstGenericType.class) Closure<?> closure) {
+        return either.peekLeft(closure::call);
     }
 
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
+    public static <L, R, X extends Throwable> R getOrElseThrow(
+            Either<L, R> either,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<X> closure) throws X {
+        return either.getOrElseThrow((Function<L, X>) closure::call);
     }
 
 }

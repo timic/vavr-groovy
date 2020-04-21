@@ -1,4 +1,4 @@
-/*
+/**
  *                                  Apache License
  *                            Version 2.0, January 2004
  *                         http://www.apache.org/licenses/
@@ -206,35 +206,50 @@ package com.github.timic.vavr.groovy;
 import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
+import io.vavr.collection.Map;
+import io.vavr.collection.Set;
 
-public final class VavrStaticExtension {
+public final class SetExtension {
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
+    public static <T> Set<T> takeWhile(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return set.takeWhile(closure::call);
     }
 
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
+    public static <T> Set<T> takeUntil(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return set.takeUntil(closure::call);
     }
 
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
+    public static <T> Set<T> dropWhile(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return set.dropWhile(closure::call);
     }
 
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
+    public static <T> Set<T> dropUntil(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return set.dropUntil(closure::call);
     }
 
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
+
+    public static <T, R> Map<R, ? extends Set<T>> groupBy(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return set.groupBy(closure::call);
     }
 
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
+    public static <T, R> Set<R> map(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return set.map(closure::call);
+    }
+
+    public static <T, R> Set<R> flatMap(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends Iterable<? extends R>> closure) {
+        return set.flatMap(closure::call);
+    }
+
+    public static <T> Set<T> filter(
+            Set<T> set, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return set.filter(closure::call);
     }
 
 }

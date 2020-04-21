@@ -206,35 +206,79 @@ package com.github.timic.vavr.groovy;
 import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
+import groovy.transform.stc.FromString;
+import io.vavr.Tuple;
+import io.vavr.Tuple1;
+import io.vavr.Tuple2;
+import io.vavr.Tuple3;
 
-public final class VavrStaticExtension {
+public final class TupleExtension {
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
+    @SuppressWarnings("unchecked")
+    public static <R> R getAt(Tuple tuple, Integer index) {
+        return (R) tuple.toSeq().get(index);
     }
 
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
+    public static <T1, T2> Tuple1<T2> map(
+            Tuple1<T1> tuple,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T2> closure) {
+        return tuple.map(closure::call);
     }
 
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
+    public static <T1, T2, T3, T4> Tuple2<T3, T4> map(
+            Tuple2<T1, T2> tuple,
+            @ClosureParams(value = FromString.class, options = {"T1,T2"}) Closure<Tuple2<T3, T4>> closure) {
+        return tuple.map((t1, t2) -> closure.call(t1, t2));
     }
 
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
+    public static <T1, T2, T3> Tuple2<T3, T2> map1(
+            Tuple2<T1, T2> tuple,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T3> closure) {
+        return tuple.map1(closure::call);
     }
 
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
+    public static <T1, T2, T3> Tuple2<T1, T3> map2(
+            Tuple2<T1, T2> tuple,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T3> closure) {
+        return tuple.map2(closure::call);
     }
 
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
+    public static <T1, T2, T3, T4, T5, T6> Tuple3<T4, T5, T6> map(
+            Tuple3<T1, T2, T3> tuple,
+            @ClosureParams(value = FromString.class, options = {"T1,T2,T3"}) Closure<Tuple3<T4, T5, T6>> closure) {
+        return tuple.map((t1, t2, t3) -> closure.call(t1, t2, t3));
+    }
+
+    public static <T1, T2, T3, T4> Tuple3<T4, T2, T3> map1(
+            Tuple3<T1, T2, T3> tuple,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T4> closure) {
+        return tuple.map1(closure::call);
+    }
+
+    public static <T1, T2, T3, T4> Tuple3<T1, T4, T3> map2(
+            Tuple3<T1, T2, T3> tuple,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T4> closure) {
+        return tuple.map2(closure::call);
+    }
+
+    public static <T1, T2, T3, T4> Tuple3<T1, T2, T4> map3(
+            Tuple3<T1, T2, T3> tuple,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T4> closure) {
+        return tuple.map3(closure::call);
+    }
+
+    public static <T1, T2> T1 getFirst(Tuple2<T1, T2> tuple2) {
+        return tuple2._1();
+    }
+
+    public static <T1, T2> T2 getSecond(Tuple2<T1, T2> tuple2) {
+        return tuple2._2();
+    }
+
+    public static <T1, T2, R> R apply(
+            Tuple2<T1, T2> tuple2,
+            @ClosureParams(value = FromString.class, options = {"T1,T2"}) Closure<? extends R> closure) {
+        return tuple2.apply((t1, t2) -> closure.call(t1, t2));
     }
 
 }

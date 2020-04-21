@@ -206,35 +206,46 @@ package com.github.timic.vavr.groovy;
 import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
 import io.vavr.control.Option;
-import io.vavr.control.Try;
 
-public final class VavrStaticExtension {
+public final class OptionExtension {
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
+    public static <T> T getOrElse(Option<T> option, Closure<? extends T> closure) {
+        return option.getOrElse(closure::call);
     }
 
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
+    public static <T> Option<T> orElse(Option<T> option, Closure<? extends Option<? extends T>> closure) {
+        return option.orElse(closure::call);
     }
 
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
+    public static <T, R> Option<R> map(
+            Option<T> option, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return option.map(closure::call);
     }
 
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
+    public static <T, R> Option<R> flatMap(
+            Option<T> option,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends Option<? extends R>> closure) {
+        return option.flatMap(closure::call);
     }
 
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
+    public static <T> Option<T> filter(
+            Option<T> option, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return option.filter(closure::call);
     }
 
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
+    public static <T> Option<T> peek(
+            Option<T> option, @ClosureParams(value = FirstParam.FirstGenericType.class) Closure<?> closure) {
+        return option.peek(closure::call);
+    }
+
+    public static <T> Option<T> onEmpty(
+            Option<T> option, @ClosureParams(value = FirstParam.FirstGenericType.class) Closure<?> closure) {
+        return option.onEmpty(closure::call);
+    }
+
+    public static <X extends Throwable, T> T getOrElseThrow(Option<T> option, Closure<X> closure) throws X {
+        return option.getOrElseThrow(closure::call);
     }
 
 }

@@ -201,40 +201,37 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.github.timic.vavr.groovy;
+package com.github.timic.vavr.groovy
 
-import groovy.lang.Closure;
-import groovy.transform.stc.ClosureParams;
-import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
+import io.vavr.collection.Stream
+import spock.lang.Specification
 
-public final class VavrStaticExtension {
+class StreamExtensionSpec extends Specification {
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
+    void "TakeUntil"() {
+        when:
+            Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5).takeUntil { it > 3 }
+        then:
+            stream == Stream.of(1, 2, 3)
     }
 
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
+    void "DropWhile"() {
+        expect:
+            Stream.of(1, 2, 3, 4, 5).dropWhile { it < 3 } == Stream.of(3, 4, 5)
     }
 
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
+    void "DropUntil"() {
+        expect:
+            Stream.of(1, 2, 3, 4, 5).dropUntil { it > 2 } == Stream.of(3, 4, 5)
     }
 
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
+
+    void "TakeWhile"() {
+        when:
+            Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5).takeWhile { it <= 3 }
+        then:
+            stream == Stream.of(1, 2, 3)
     }
 
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
-    }
-
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
-    }
 
 }

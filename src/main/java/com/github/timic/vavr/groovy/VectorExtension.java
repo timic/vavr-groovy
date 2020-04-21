@@ -1,4 +1,4 @@
-/*
+/**
  *                                  Apache License
  *                            Version 2.0, January 2004
  *                         http://www.apache.org/licenses/
@@ -201,98 +201,55 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.github.timic.vavr.groovy
+package com.github.timic.vavr.groovy;
 
-import io.vavr.Tuple2
-import io.vavr.Tuple3
-import io.vavr.collection.HashMap
-import io.vavr.collection.List
-import io.vavr.collection.Stream
-import io.vavr.control.Either
-import io.vavr.control.Option
-import spock.lang.Specification
+import groovy.lang.Closure;
+import groovy.transform.stc.ClosureParams;
+import groovy.transform.stc.FirstParam;
+import io.vavr.collection.Map;
+import io.vavr.collection.Vector;
 
-class VavrExtensionSpec extends Specification {
+public final class VectorExtension {
 
-    void "option get or else"() {
-        expect:
-            Option.none().getOrElse { 1 } == 1
+    public static <T> Vector<T> takeWhile(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return vector.takeWhile(closure::call);
     }
 
-    void "option when"() {
-        expect:
-            Option.when(true) { "OK" } == Option.some("OK")
+    public static <T> Vector<T> takeUntil(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return vector.takeUntil(closure::call);
     }
 
-    void "option to left"() {
-        expect:
-            Option.none().toLeft { "RIGHT" } == Either.right("RIGHT")
+    public static <T> Vector<T> dropWhile(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return vector.dropWhile(closure::call);
     }
 
-    void "option to either"() {
-        expect:
-            Option.none().toEither { "LEFT" } == Either.left("LEFT")
+    public static <T> Vector<T> dropUntil(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return vector.dropUntil(closure::call);
     }
 
-    void "stream take while"() {
-        when:
-            Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5).takeWhile { it <= 3 }
-        then:
-            stream == Stream.of(1, 2, 3)
+    public static <T, R> Map<R, Vector<T>> groupBy(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return vector.groupBy(closure::call);
     }
 
-    void "list take whike"() {
-        when:
-            List<Integer> list = List.of(1, 2, 3, 4, 5).takeWhile { it <= 3 }
-        then:
-            list == List.of(1, 2, 3)
+    public static <T, R> Vector<R> map(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return vector.map(closure::call);
     }
 
-    void "stream take until"() {
-        when:
-            Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5).takeUntil { it > 3 }
-        then:
-            stream == Stream.of(1, 2, 3)
+    public static <T, R> Vector<R> flatMap(
+            Vector<T> vector,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends Iterable<? extends R>> closure) {
+        return vector.flatMap(closure::call);
     }
 
-    void "stream drop while"() {
-        expect:
-            Stream.of(1, 2, 3, 4, 5).dropWhile { it < 3 } == Stream.of(3, 4, 5)
-    }
-
-    void "stream drop until"() {
-        expect:
-            Stream.of(1, 2, 3, 4, 5).dropUntil { it > 2 } == Stream.of(3, 4, 5)
-    }
-
-    void "should extract tuple variables"() {
-        when:
-            def (int a, String b) = new Tuple2<Integer, String>(1, "Test")
-        then:
-            a == 1
-            b == "Test"
-        when:
-            def (boolean c, long d, Map e) = new Tuple3<Boolean, Long, ?>(true, 10L, [a: 1])
-        then:
-            c
-            d == 10L
-            e == [a: 1]
-    }
-
-    void "group by list"() {
-        expect:
-            List.of(1, 2, 3, 4, 5).groupBy {
-                it % 2 == 0 ? 'even' : 'odd'
-            } == HashMap.of(
-                    "even", List.of(2, 4),
-                    "odd", List.of(1, 3, 5))
-    }
-
-    void "either map left"() {
-        expect:
-            Either.left(1).mapLeft {
-                it + 2
-            }.left == 3
+    public static <T> Vector<T> filter(
+            Vector<T> vector, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return vector.filter(closure::call);
     }
 
 }

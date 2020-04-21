@@ -201,40 +201,32 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.github.timic.vavr.groovy;
+package com.github.timic.vavr.groovy
 
-import groovy.lang.Closure;
-import groovy.transform.stc.ClosureParams;
-import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
+import static com.github.timic.vavr.groovy.API.*
 
-public final class VavrStaticExtension {
+import spock.lang.Specification
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
+class APISpec extends Specification {
+
+    void "match case"() {
+        expect:
+        Match(5).of(
+                Case(5, "Equals"),
+                Case(3, "Not eqauls")) == "Equals"
+        Match(5).of(
+                Case({ it > 4 }) { "Greater" },
+                Case({ it == 3 }, "Equals")) == "Greater"
+        Match(5).of(
+                Case({ it == 5 }) { it ** 2 }) == 25
+        Match(5).of(
+                Case(3, "False"),
+                // default case
+                Case {
+                    "Default"
+                }) == "Default"
     }
 
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
-    }
 
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
-    }
-
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
-    }
-
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
-    }
-
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
-    }
 
 }

@@ -206,35 +206,33 @@ package com.github.timic.vavr.groovy;
 import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
+import groovy.transform.stc.FromString;
 import io.vavr.control.Try;
 
-public final class VavrStaticExtension {
+import java.util.function.Function;
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
+public final class TryExtension {
+
+    public static <T, X extends Throwable> T getOrElseThrow(
+            Try<T> aTry,
+            @ClosureParams(FirstParam.SecondGenericType.class) Closure<X> closure) throws X {
+        return aTry.getOrElseThrow((Function<Throwable, X>) closure::call);
     }
 
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
+    public static <T, R> Try<R> map(
+            Try<T> aTry, @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
+        return aTry.map(closure::call);
     }
 
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
+    public static <T, R> Try<R> flatMap(
+            Try<T> aTry, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Try<? extends R>> closure) {
+        return aTry.flatMap(closure::call);
     }
 
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
-    }
-
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
-    }
-
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
+    public static <X extends Throwable, T> Try<T> recover(
+            Try<T> aTry, Class<X> e,
+            @ClosureParams(value = FromString.class, options = {"X"}) Closure<? extends T> closure) {
+        return aTry.recover(e, closure::call);
     }
 
 }

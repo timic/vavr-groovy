@@ -206,35 +206,67 @@ package com.github.timic.vavr.groovy;
 import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
 
-public final class VavrStaticExtension {
+import java.util.function.Function;
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
+
+public final class API {
+
+    public static <T> io.vavr.API.Match<T> Match(T target) {
+        return io.vavr.API.Match(target);
     }
 
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
+    public static <T> io.vavr.API.Match.Pattern0<T> $() {
+        return io.vavr.API.$();
     }
 
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
+    public static <T> io.vavr.API.Match.Pattern0<T> $(T value) {
+        return io.vavr.API.$(value);
     }
 
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
+    public static <T> io.vavr.API.Match.Pattern0<T> $(
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return io.vavr.API.$(closure::call);
     }
 
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
+    public static <T, R> io.vavr.API.Match.Case<T, R> Case(io.vavr.API.Match.Pattern0<T> pattern, R ret) {
+        return io.vavr.API.Case(pattern, ret);
     }
 
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
+    public static <T, R> io.vavr.API.Match.Case<T, R> Case(
+            io.vavr.API.Match.Pattern0<T> pattern,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
+        return io.vavr.API.Case(pattern, (Function<? super T, ? extends R>) closure::call);
     }
 
+    public static <T, R> io.vavr.API.Match.Case<T, R> Case(T pattern, R ret) {
+        return Case($(pattern), ret);
+    }
+
+    public static <T, R> io.vavr.API.Match.Case<T, R> Case(
+            T pattern,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> closure) {
+        return Case($(pattern), closure);
+    }
+
+    public static <T, R> io.vavr.API.Match.Case<T, R> Case(
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> predicate,
+            R ret) {
+        return io.vavr.API.Case($(predicate), ret);
+    }
+
+    public static <T, R> io.vavr.API.Match.Case<T, R> Case(
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> predicate,
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> supplier) {
+        return io.vavr.API.Case($(predicate), (Function<T, R>) supplier::call);
+    }
+
+    public static <T, R> io.vavr.API.Match.Case<T, R> Case(R ret) {
+        return io.vavr.API.Case($(), ret);
+    }
+
+    public static <T, R> io.vavr.API.Match.Case<T, R> Case(
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<R> supplier) {
+        return io.vavr.API.Case($(), (Function<T, R>) supplier::call);
+    }
 }

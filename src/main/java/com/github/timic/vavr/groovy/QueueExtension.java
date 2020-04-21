@@ -1,4 +1,4 @@
-/*
+/**
  *                                  Apache License
  *                            Version 2.0, January 2004
  *                         http://www.apache.org/licenses/
@@ -206,35 +206,44 @@ package com.github.timic.vavr.groovy;
 import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
+import io.vavr.collection.Map;
+import io.vavr.collection.Queue;
 
-public final class VavrStaticExtension {
+public final class QueueExtension {
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
+    public static <T> Queue<T> takeWhile(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.takeWhile(closure::call);
     }
 
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
+    public static <T> Queue<T> takeUntil(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.takeUntil(closure::call);
     }
 
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
+    public static <T> Queue<T> dropWhile(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.dropWhile(closure::call);
     }
 
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
+    public static <T, R> Map<R, Queue<T>> groupBy(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return queue.groupBy(closure::call);
     }
 
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
+    public static <T, R> Queue<R> map(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends R> closure) {
+        return queue.map(closure::call);
     }
 
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
+    public static <T, R> Queue<R> flatMap(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends Iterable<? extends R>> closure) {
+        return queue.flatMap(closure::call);
+    }
+
+    public static <T> Queue<T> filter(
+            Queue<T> queue, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return queue.filter(closure::call);
     }
 
 }

@@ -1,4 +1,19 @@
 moduleName = vavr-module
 moduleVersion = 0.1.0-SNAPSHOT
-extensionClasses = com.github.timic.vavr.groovy.VavrExtension
+extensionClasses = com.github.timic.vavr.groovy.ArrayExtension,\
+  com.github.timic.vavr.groovy.EitherExtension,\
+  com.github.timic.vavr.groovy.ListExtension,\
+  com.github.timic.vavr.groovy.MapExtension,\
+  com.github.timic.vavr.groovy.OptionExtension,\
+  com.github.timic.vavr.groovy.PriorityQueueExtension,\
+  com.github.timic.vavr.groovy.QueueExtension,\
+  com.github.timic.vavr.groovy.SeqExtension,\
+  com.github.timic.vavr.groovy.SetExtension,\
+  com.github.timic.vavr.groovy.StreamExtension,\
+  com.github.timic.vavr.groovy.TraversableExtension,\
+  com.github.timic.vavr.groovy.TreeExtension,\
+  com.github.timic.vavr.groovy.TryExtension,\
+  com.github.timic.vavr.groovy.TupleExtension,\
+  com.github.timic.vavr.groovy.ValueExtension,\
+  com.github.timic.vavr.groovy.VectorExtension
 staticExtensionClasses = com.github.timic.vavr.groovy.VavrStaticExtension

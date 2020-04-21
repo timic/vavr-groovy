@@ -1,4 +1,4 @@
-/*
+/**
  *                                  Apache License
  *                            Version 2.0, January 2004
  *                         http://www.apache.org/licenses/
@@ -206,35 +206,22 @@ package com.github.timic.vavr.groovy;
 import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
+import groovy.transform.stc.FromString;
+import io.vavr.collection.List;
+import io.vavr.collection.Traversable;
 import io.vavr.control.Option;
-import io.vavr.control.Try;
 
-public final class VavrStaticExtension {
+public final class TraversableExtension {
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
+    public static <T> Option<T> find(
+            List<T> list, @ClosureParams(value = FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return list.find(closure::call);
     }
 
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
-    }
-
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
-    }
-
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
-    }
-
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
-    }
-
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
+    public static <U, T> U foldLeft(
+            Traversable<T> traversable, U zero,
+            @ClosureParams(value = FromString.class, options = {"U,T"}) Closure<? extends U> closure) {
+        return traversable.foldLeft(zero, (a, b) -> closure.call(a, b));
     }
 
 }

@@ -206,35 +206,64 @@ package com.github.timic.vavr.groovy;
 import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
+import groovy.transform.stc.FromString;
+import io.vavr.Tuple2;
+import io.vavr.collection.Map;
 
-public final class VavrStaticExtension {
+public final class MapExtension {
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
+    public static <K, V, K2, V2> Map<K2, V2> map(
+            Map<K, V> map,
+            @ClosureParams(value = FromString.class, options = {"K,V"}) Closure<Tuple2<K2, V2>> closure) {
+        return map.map((k, v) -> closure.call(k, v));
     }
 
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
+    public static <K, V, V2> Map<K, V2> mapValues(
+            Map<K, V> map,
+            @ClosureParams(value = FirstParam.SecondGenericType.class) Closure<? extends V2> closure) {
+        return map.mapValues(closure::call);
     }
 
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
+    public static <K, V, K2, V2> Map<K2, V2> flatMap(
+            Map<K, V> map,
+            @ClosureParams(value = FromString.class, options = {"K,V"})
+                    Closure<? extends Iterable<Tuple2<K2, V2>>> closure) {
+        return map.flatMap((k, v) -> closure.call(k, v));
     }
 
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
+    public static <K, V> Map<K, V> filter(
+            Map<K, V> map, @ClosureParams(value = FromString.class, options = {"K,V"}) Closure<Boolean> closure) {
+        return map.filter((k, v) -> closure.call(k, v));
     }
 
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
+    public static <K, V> Map<K, V> filterValues(
+            Map<K, V> map, @ClosureParams(FirstParam.SecondGenericType.class) Closure<Boolean> closure) {
+        return map.filterValues(closure::call);
     }
 
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
+    public static <K1, V, K2> Map<K2, ? extends Map<K1, V>> groupBy(
+            Map<K1, V> map,
+            @ClosureParams(value = FromString.class, options = {"K1,V"}) Closure<? extends K2> closure) {
+        return map.groupBy(t -> closure.call(t._1, t._2));
+    }
+
+    public static <U, K, V> U foldLeft(
+            Map<K, V> traversable, U zero,
+            @ClosureParams(value = FromString.class, options = {"U, K, V"}) Closure<? extends U> closure) {
+        return traversable.foldLeft(zero, (a, b) -> closure.call(a, b._1, b._2));
+    }
+
+    public static <K1, V1, K2, V2> Map<K2, V2> toMap(
+            Map<K1, V1> value,
+            @ClosureParams(value = FromString.class, options = {"K1,V1"})
+                    Closure<? extends Tuple2<? extends K2, ? extends V2>> closure) {
+        return value.toMap((t) -> closure.call(t._1, t._2));
+    }
+
+    public static <K, V> void forEach(
+            Map<K, V> value,
+            @ClosureParams(value = FromString.class, options = {"K,V"}) Closure<?> closure) {
+        value.forEach((k, v) -> closure.call(k, v));
     }
 
 }

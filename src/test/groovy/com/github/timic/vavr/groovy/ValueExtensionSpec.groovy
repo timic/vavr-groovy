@@ -201,40 +201,22 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.github.timic.vavr.groovy;
+package com.github.timic.vavr.groovy
 
-import groovy.lang.Closure;
-import groovy.transform.stc.ClosureParams;
-import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
+import io.vavr.control.Either
+import io.vavr.control.Option
+import spock.lang.Specification
 
-public final class VavrStaticExtension {
+class ValueExtensionSpec extends Specification {
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
+    def "ToEither"() {
+        expect:
+            Option.none().toEither { "LEFT" } == Either.left("LEFT")
     }
 
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
-    }
-
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
-    }
-
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
-    }
-
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
-    }
-
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
+    def "ToLeft"() {
+        expect:
+            Option.none().toLeft { "RIGHT" } == Either.right("RIGHT")
     }
 
 }

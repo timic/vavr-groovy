@@ -236,30 +236,24 @@ class VavrStaticExtensionSpec extends Specification {
             Option<Integer> opt = testStaticNone()
         then:
             opt.empty
-
     }
 
-    void "match case"() {
-        expect:
-            Match(5).of(
-                    Case(5, "Equals"),
-                    Case(3, "Not eqauls")) == "Equals"
-            Match(5).of(
-                    Case({ it > 4 }) { "Greater" },
-                    Case({ it == 3 }, "Equals")) == "Greater"
-            Match(5).of(
-                    Case({ it == 5 }) { it ** 2 }) == 25
-            Match(5).of(
-                    Case(3, "False"),
-                    // default case
-                    Case {
-                        "Default"
-                    }) == "Default"
+    void "some factory method"() {
+        when:
+            Option<Integer> opt = testStaticSome(1)
+        then:
+            opt.defined
+            opt == Option.some(1)
     }
 
     @CompileStatic
     private static Option<Integer> testStaticNone() {
-        none()
+        None()
+    }
+
+    @CompileStatic
+    private static Option<Integer> testStaticSome(Integer anInt) {
+        Some(anInt)
     }
 
 }

@@ -1,4 +1,4 @@
-/*
+/**
  *                                  Apache License
  *                            Version 2.0, January 2004
  *                         http://www.apache.org/licenses/
@@ -206,35 +206,14 @@ package com.github.timic.vavr.groovy;
 import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
-import io.vavr.collection.Stream;
-import io.vavr.control.Option;
-import io.vavr.control.Try;
+import io.vavr.collection.Seq;
+import io.vavr.collection.Tree;
 
-public final class VavrStaticExtension {
+public final class SeqExtension {
 
-    public static <T> Stream<T> iterate(
-            Stream<T> stream, T obj, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T> closure) {
-        return Stream.iterate(obj, closure::call);
-    }
-
-    public static <T> Stream<T> continually(Stream<T> stream, Closure<? extends T> closure) {
-        return Stream.continually(closure::call);
-    }
-
-    public static <T> Option<T> when(Option<T> option, boolean test, Closure<? extends T> closure) {
-        return Option.when(test, closure::call);
-    }
-
-    public static <T> Try<T> of(Try<T> obj, Closure<? extends T> closure) {
-        return Try.of(closure::call);
-    }
-
-    public static <T> Option<T> None(Object obj) {
-        return Option.none();
-    }
-
-    public static <T> Option<T> Some(Object obj, T some) {
-        return Option.some(some);
+    public static <T> Seq<T> takeWhile(
+            Tree<T> tree, @ClosureParams(FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return tree.takeWhile(closure::call);
     }
 
 }
