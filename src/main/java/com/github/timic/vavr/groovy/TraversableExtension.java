@@ -207,15 +207,15 @@ import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
 import groovy.transform.stc.FromString;
-import io.vavr.collection.List;
 import io.vavr.collection.Traversable;
 import io.vavr.control.Option;
 
 public final class TraversableExtension {
 
     public static <T> Option<T> find(
-            List<T> list, @ClosureParams(value = FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
-        return list.find(closure::call);
+            Traversable<T> traversable,
+            @ClosureParams(value = FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
+        return traversable.find(closure::call);
     }
 
     public static <U, T> U foldLeft(
