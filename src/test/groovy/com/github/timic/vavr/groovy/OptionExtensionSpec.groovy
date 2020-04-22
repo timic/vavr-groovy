@@ -203,27 +203,72 @@
  */
 package com.github.timic.vavr.groovy
 
-import io.vavr.control.Either
 import io.vavr.control.Option
 import spock.lang.Specification
 
 class OptionExtensionSpec extends Specification {
 
-    void "getOrElse"() {
+    void "GetOrElse"() {
         expect:
-        Option.none().getOrElse { 1 } == 1
+        None().getOrElse { 1 } == 1
     }
 
-    void "when"() {
+    void "When"() {
         expect:
         Option.when(true) { "OK" } == Option.some("OK")
     }
 
-    void "toLeft"() {
+    def "OrElse"() {
+        expect:
+            None().orElse { Some(1) } == Some(1)
     }
 
-    void "toEither"() {
+    def "Map"() {
+        expect:
+            Some(1).map { it * 2 } == Some(2)
+    }
 
+    def "FlatMap"() {
+        expect:
+            Some(1).flatMap { Some(it * 2) } == Some(2)
+    }
+
+    def "Filter"() {
+        expect:
+            Some(1).filter { it > 1 } == None()
+    }
+
+    def "Peek"() {
+        given:
+            def val
+        when:
+            Some(1).peek {
+                val = it
+            }
+        then:
+            val == 1
+    }
+
+    def "OnEmpty"() {
+        given:
+            def val
+        when:
+            None().onEmpty {
+                val = "Empty"
+            }
+        then:
+            val == "Empty"
+    }
+
+    def "GetOrElseThrow"() {
+        when:
+            None().getOrElseThrow {
+                new RuntimeException("boom")
+            }
+        then:
+            def e = thrown(RuntimeException)
+        and:
+            e.message == "boom"
     }
 
 }

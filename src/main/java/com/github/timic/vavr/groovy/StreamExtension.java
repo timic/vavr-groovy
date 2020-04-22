@@ -1,4 +1,4 @@
-/**
+/*
  *                                  Apache License
  *                            Version 2.0, January 2004
  *                         http://www.apache.org/licenses/
@@ -254,7 +254,7 @@ public final class StreamExtension {
     }
 
     public static <T, U extends Comparable<? super U>> Stream<T> sortBy(
-            Stream<T> stream, @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends U> closure) {
+            Stream<T> stream, @ClosureParams(FirstParam.FirstGenericType.class) Closure<U> closure) {
         return stream.sortBy(closure::call);
     }
 

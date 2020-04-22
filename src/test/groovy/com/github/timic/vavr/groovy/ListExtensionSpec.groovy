@@ -210,19 +210,23 @@ import spock.lang.Specification
 class ListExtensionSpec extends Specification {
 
     def "TakeWhile"() {
-        when:
-            List<Integer> list = List.of(1, 2, 3, 4, 5).takeWhile { it <= 3 }
-        then:
-            list == List.of(1, 2, 3)
+        expect:
+            List.of(1, 2, 3, 4, 5).takeWhile { it <= 3 } == List.of(1, 2, 3)
     }
 
     def "TakeUntil"() {
+        expect:
+            List.of(1, 2, 3, 4, 5).takeUntil { it > 3} == List.of(1, 2, 3)
     }
 
     def "DropWhile"() {
+        expect:
+            List.of(1, 2, 3, 4, 5).dropWhile { it <= 3 } == List.of(4, 5)
     }
 
     def "DropUntil"() {
+        expect:
+            List.of(1, 2, 3, 4, 5).dropUntil { it > 3 } == List.of(4, 5)
     }
 
     def "GroupBy"() {
@@ -235,11 +239,27 @@ class ListExtensionSpec extends Specification {
     }
 
     def "Map"() {
+        expect:
+            List.of(1, 2, 3).map { it * 2 } == List.of(2, 4, 6)
     }
 
     def "FlatMap"() {
+        expect:
+            List.of(1, 2, 3).flatMap { [it, it * 2] } == List.of(1, 2, 2, 4, 3, 6)
     }
 
     def "Filter"() {
+        expect:
+            List.of(1, 2, 3).filter { it % 2 == 0 } == List.of(2)
+    }
+
+    def "RemoveAll"() {
+        expect:
+            List.of(1, 2, 3).removeAll { it % 2 == 0 } == List.of(1, 3)
+    }
+
+    def "SortBy"() {
+        expect:
+            List.of("abc", "ab", "abcd").sortBy { it.size() } == List.of("ab", "abc", "abcd")
     }
 }

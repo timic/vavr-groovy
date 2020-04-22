@@ -206,22 +206,23 @@ package com.github.timic.vavr.groovy
 import groovy.transform.CompileStatic
 import io.vavr.collection.Stream
 import io.vavr.control.Option
+import io.vavr.control.Try
 import spock.lang.Specification
 
 class VavrStaticExtensionSpec extends Specification {
 
-    void "stream iterate"() {
+    def "Stream.iterate"() {
         expect:
             Stream.iterate(1) { ++it }.take(3) == Stream.of(1, 2, 3)
             Stream.iterate("Hello") { it.concat("!") }.take(4).last() == "Hello!!!"
     }
 
-    void "stream continually"() {
+    def "Stream.continually"() {
         expect:
             Stream.continually { 1 }.take(3) == Stream.of(1, 1, 1)
     }
 
-    void "option when"() {
+    def "Option.when"() {
         when:
             def opt = Option.when(true) {
                 1
@@ -231,19 +232,23 @@ class VavrStaticExtensionSpec extends Specification {
             opt.get() == 1
     }
 
-    void "none factory method"() {
-        when:
-            Option<Integer> opt = testStaticNone()
-        then:
-            opt.empty
+    def "Try.of"() {
+        given:
+            def err = new RuntimeException("err")
+        expect:
+            Try.of {
+                throw err
+            } == Try.failure(err)
     }
 
-    void "some factory method"() {
-        when:
-            Option<Integer> opt = testStaticSome(1)
-        then:
-            opt.defined
-            opt == Option.some(1)
+    def "None"() {
+        expect:
+            testStaticNone() == Option.none()
+    }
+
+    def "Some"() {
+        expect:
+            testStaticSome(1) == Option.some(1)
     }
 
     @CompileStatic

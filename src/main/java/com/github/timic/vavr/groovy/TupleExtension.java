@@ -239,7 +239,7 @@ public final class TupleExtension {
 
     public static <T1, T2, T3> Tuple2<T1, T3> map2(
             Tuple2<T1, T2> tuple,
-            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T3> closure) {
+            @ClosureParams(FirstParam.SecondGenericType.class) Closure<? extends T3> closure) {
         return tuple.map2(closure::call);
     }
 
@@ -257,13 +257,13 @@ public final class TupleExtension {
 
     public static <T1, T2, T3, T4> Tuple3<T1, T4, T3> map2(
             Tuple3<T1, T2, T3> tuple,
-            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T4> closure) {
+            @ClosureParams(FirstParam.SecondGenericType.class) Closure<? extends T4> closure) {
         return tuple.map2(closure::call);
     }
 
     public static <T1, T2, T3, T4> Tuple3<T1, T2, T4> map3(
             Tuple3<T1, T2, T3> tuple,
-            @ClosureParams(FirstParam.FirstGenericType.class) Closure<? extends T4> closure) {
+            @ClosureParams(FirstParam.ThirdGenericType.class) Closure<? extends T4> closure) {
         return tuple.map3(closure::call);
     }
 

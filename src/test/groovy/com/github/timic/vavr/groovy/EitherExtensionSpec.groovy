@@ -208,15 +208,6 @@ import spock.lang.Specification
 
 class EitherExtensionSpec extends Specification {
 
-    def "ToEither"() {
-    }
-
-    def "ToLeft"() {
-    }
-
-    def "Map"() {
-    }
-
     def "MapLeft"() {
         expect:
             Either.left(1).mapLeft {
@@ -224,7 +215,46 @@ class EitherExtensionSpec extends Specification {
             }.left == 3
     }
 
-    def "FlatMap"() {
+    def "Map"() {
+        expect:
+            Either.right(1).map { it * 2 } == Either.right(2)
     }
 
+    def "FlatMap"() {
+        expect:
+            Either.right(1).flatMap { Either.left("error") } == Either.left("error")
+    }
+
+    def "Peek"() {
+        given:
+            def val
+        when:
+            Either.right(1).peek {
+                val = it
+            }
+        then:
+            val == 1
+    }
+
+    def "PeekLeft"() {
+        given:
+            def val
+        when:
+            Either.left("err").peekLeft {
+                val = it
+            }
+        then:
+            val == "err"
+    }
+
+    def "GetOrElseThrow"() {
+        when:
+            Either.left("err").getOrElseThrow {
+                new RuntimeException(it)
+            }
+        then:
+            def e = thrown(RuntimeException)
+        and:
+            e.message == "err"
+    }
 }

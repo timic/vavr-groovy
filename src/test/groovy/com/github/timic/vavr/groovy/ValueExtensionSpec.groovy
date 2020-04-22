@@ -203,6 +203,9 @@
  */
 package com.github.timic.vavr.groovy
 
+import io.vavr.Tuple2
+import io.vavr.collection.HashMap
+import io.vavr.collection.List
 import io.vavr.control.Either
 import io.vavr.control.Option
 import spock.lang.Specification
@@ -217,6 +220,27 @@ class ValueExtensionSpec extends Specification {
     def "ToLeft"() {
         expect:
             Option.none().toLeft { "RIGHT" } == Either.right("RIGHT")
+    }
+
+    def "ForEach"() {
+        given:
+            def result = []
+        when:
+            List.of(1, 2, 3).forEach {
+                result << it * 2
+            }
+        then:
+            result == [2, 4, 6]
+    }
+
+    def "ToMap"() {
+        expect:
+            List.of(1, 2, 3).toMap {
+                new Tuple2<>(it, it * 2)
+            } == HashMap.of(
+                    1, 2,
+                    2, 4,
+                    3, 6)
     }
 
 }

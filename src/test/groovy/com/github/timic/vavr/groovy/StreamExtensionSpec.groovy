@@ -203,8 +203,11 @@
  */
 package com.github.timic.vavr.groovy
 
+import io.vavr.collection.HashMap
 import io.vavr.collection.Stream
 import spock.lang.Specification
+
+import java.awt.TexturePaint
 
 class StreamExtensionSpec extends Specification {
 
@@ -225,7 +228,6 @@ class StreamExtensionSpec extends Specification {
             Stream.of(1, 2, 3, 4, 5).dropUntil { it > 2 } == Stream.of(3, 4, 5)
     }
 
-
     void "TakeWhile"() {
         when:
             Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5).takeWhile { it <= 3 }
@@ -234,4 +236,31 @@ class StreamExtensionSpec extends Specification {
     }
 
 
+    def "GroupBy"() {
+        expect:
+            Stream.of(1, 2, 3).groupBy { it % 2 == 0 ? 'even' : 'odd' } == HashMap.of(
+                    "even", Stream.of(2),
+                    "odd", Stream.of(1, 3))
+    }
+
+    def "Map"() {
+        expect:
+            Stream.of(1, 2, 3).map { it * 2 } == Stream.of(2, 4, 6)
+    }
+
+    def "FlatMap"() {
+        expect:
+            Stream.of(1, 2, 3).flatMap { Some(it * 2) } == Stream.of(2, 4, 6)
+            Stream.of(1, 2, 3).flatMap { [it, it * 2] } == Stream.of(1, 2, 2, 4, 3, 6)
+    }
+
+    def "Filter"() {
+        expect:
+            Stream.of(1, 2, 3).filter { it % 2 == 0 } == Stream.of(2)
+    }
+
+    def "SortBy"() {
+        expect:
+            Stream.of("abc", "abcd", "ab").sortBy { it.size() } == Stream.of("ab", "abc", "abcd")
+    }
 }

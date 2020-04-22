@@ -224,27 +224,43 @@ class TupleExtensionSpec extends Specification {
     }
 
     def "Map"() {
-    }
-
-    def "TestMap"() {
+        expect:
+            Tuple2.of(1, "ok").map { _1, _2 ->
+                Tuple2.of(_1 * 2, _2.toUpperCase())
+            } == Tuple2.of(2, "OK")
+            Tuple3.of(1, "ok", true).map { _1, _2, _3 ->
+                Tuple3.of(_1 * 2, _2.toUpperCase(), !_3)
+            } == Tuple3.of(2, "OK", false)
     }
 
     def "Map1"() {
+        expect:
+            Tuple2.of(1, "ok").map1 { _1 -> _1 == 1 } == Tuple2.of(true, "ok")
+            Tuple3.of(1, "ok", true).map1 { _1 -> _1 == 1 } == Tuple2.of(true, "ok", true)
     }
 
     def "Map2"() {
-    }
-
-    def "TestMap1"() {
-    }
-
-    def "TestMap11"() {
-    }
-
-    def "TestMap2"() {
+        Tuple2.of(1, "ok").map2 { _1 -> _1.toUpperCase() } == Tuple2.of(1, "OK")
+        Tuple3.of(1, "ok", true).map2 { _1 -> _1.toUpperCase() } == Tuple2.of(1, "OK", true)
     }
 
     def "Map3"() {
+        Tuple3.of(1, "ok", true).map3 { _1 -> !_1 } == Tuple2.of(1, "ok", false)
+    }
+
+    def "GetFirst"() {
+        expect:
+            Tuple2.of(1, "ok").getFirst() == 1
+    }
+
+    def "GetSecond"() {
+        expect:
+            Tuple2.of(1, "ok").getSecond() == "ok"
+    }
+
+    def "Apply"() {
+        expect:
+            Tuple2.of(1, "ok").apply { _1, _2 -> _1 + _2.size() } == 3
     }
 
 }

@@ -206,10 +206,8 @@ package com.github.timic.vavr.groovy;
 import groovy.lang.Closure;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.FirstParam;
-import io.vavr.Tuple2;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;
-import io.vavr.collection.Stream;
 
 import java.util.function.Predicate;
 
@@ -260,13 +258,6 @@ public final class ListExtension {
     public static <T> List<T> removeAll(
             List<T> list, @ClosureParams(value = FirstParam.FirstGenericType.class) Closure<Boolean> closure) {
         return list.removeAll((Predicate<? super T>) closure::call);
-    }
-
-    public static <T, K, V> Map<K, V> toMap(
-            List<T> list,
-            @ClosureParams(value = FirstParam.FirstGenericType.class)
-                    Closure<? extends Tuple2<? extends K, ? extends V>> closure) {
-        return list.toMap(closure::call);
     }
 
     public static <T, U extends Comparable<? super U>> List<T> sortBy(
