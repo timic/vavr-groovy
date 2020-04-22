@@ -1,3 +1,7 @@
+### v0.3.3
+* Fixed tuple type hints
+* Make groovy compile only dependency 
+
 ### v0.3.2
 * Fixed `Traversable#find(Closure)`
 
