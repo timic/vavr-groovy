@@ -1,14 +1,6 @@
-### v0.3.3
-* Fixed tuple type hints
+### v0.3.4
 * Make groovy compile only dependency 
-
-### v0.3.2
-* Fixed `Traversable#find(Closure)`
-
-### v0.3.1
 * Update vavr to 0.10.2
-
-### v0.3.0
 * An extension methods split to separate classes
 * Added few extensions to Map, Option, Either
 

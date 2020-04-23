@@ -215,7 +215,7 @@ public final class TryExtension {
 
     public static <T, X extends Throwable> T getOrElseThrow(
             Try<T> aTry,
-            @ClosureParams(FirstParam.SecondGenericType.class) Closure<X> closure) throws X {
+            @ClosureParams(FirstParam.FirstGenericType.class) Closure<X> closure) throws X {
         return aTry.getOrElseThrow((Function<Throwable, X>) closure::call);
     }
 
