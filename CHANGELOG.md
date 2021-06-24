@@ -1,4 +1,4 @@
-### v0.3.4
+### v0.4.0
 * Make groovy compile only dependency 
 * Update vavr to 0.10.2
 * An extension methods split to separate classes
