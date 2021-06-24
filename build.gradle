@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -8,20 +8,18 @@ plugins {
     id 'groovy'
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
     id 'jacoco'
-    id 'com.jfrog.bintray' version '1.8.5'
     id "com.github.hierynomus.license" version "0.15.0"
     id 'com.github.ben-manes.versions' version '0.33.0'
-    id 'com.palantir.git-version' version '0.12.3'
 }
 
 group 'com.github.timic'
-version gitVersion()
 
 sourceCompatibility = 1.8
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -31,26 +29,58 @@ dependencies {
     testCompile "org.spockframework:spock-core:$spockVersion"
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 publishing {
     publications {
         vavrGroovy(MavenPublication) {
+            artifactId = 'vavr-groovy'
             from components.java
+            pom {
+                name = "vavr-groovy"
+                description = "Groovy extension modules for vavr library."
+                url = 'https://github.com/timic/vavr-groovy'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'timic'
+                        name = 'Timur Salyakhutdinov'
+                        email = 'timic@eml.cc'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/timic/vavr-groovy.git'
+                    developerConnection = 'scm:git:ssh://git@github.com:timic/vavr-groovy.git'
+                    url = 'https://github.com/timic/vavr-groovy'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            if (version.endsWith('SNAPSHOT')) {
+                url = 'https://oss.sonatype.org/content/repositories/snapshots/'
+            }  else {
+                url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+            }
+            credentials {
+                username findProperty('sonatypeUser') ?: 'timic'
+                password findProperty('sonatypePassword')
+            }
         }
     }
 }
 
-bintray {
-    user = System.getenv("BINTRAY_USER")
-    key = System.getenv("BINTRAY_KEY")
-    publications = ["vavrGroovy"]
-    pkg {
-        repo = "generic"
-        name = "vavr-groovy"
-        userOrg = user
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/timic/vavr-groovy.git'
-        labels = ['vavr', 'groovy']
-    }
+signing {
+    sign publishing.publications.vavrGroovy
 }
 
 jar.dependsOn(check)
