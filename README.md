@@ -1,4 +1,4 @@
-[![Maven](https://img.shields.io/maven-central/v/com.github.timic/vavr-grovy)](https://search.maven.org/search?q=g:%22com.github.timic%22%20AND%20a:%22vavr-groovy%22)
+[![Maven](https://img.shields.io/maven-central/v/com.github.timic/vavr-groovy)](https://search.maven.org/search?q=g:%22com.github.timic%22%20AND%20a:%22vavr-groovy%22)
 [![Build Status](https://travis-ci.org/timic/vavr-groovy.svg?branch=master)](https://travis-ci.org/timic/vavr-groovy)
 [![codecov](https://codecov.io/gh/timic/vavr-groovy/branch/master/graph/badge.svg)](https://codecov.io/gh/timic/vavr-groovy)
 
